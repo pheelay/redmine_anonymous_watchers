@@ -1,0 +1,77 @@
+require 'plugins/acts_as_watchable/lib/acts_as_watchable'
+
+module RedmineAnonymousWatchers
+  module ActsAsWatchablePatch
+    def self.included(base)
+      base::ClassMethods.send(:include, ClassMethods)
+      base::ClassMethods.module_eval do
+        alias_method_chain :acts_as_watchable, :anonymous
+      end
+
+      base::InstanceMethods.send(:include, InstanceMethods)
+      base::InstanceMethods.module_eval do
+        alias_method_chain :add_watcher, :anonymous
+        alias_method_chain :remove_watcher, :anonymous
+        alias_method_chain :watched_by?, :anonymous
+        alias_method_chain :watcher_recipients, :anonymous
+
+        def watcher_mails
+          anonymous_watchers.map(&:mail).compact
+        end
+
+        def watcher_mails=(mails)
+          anonymous_watchers.delete_all
+          mails = Array(mails).map {|m| m.split(/[\s,]+/)}.flatten.delete_if {|m| m.blank?}
+          mails.each {|m| anonymous_watchers << AnonymousWatcher.new(:mail => m)}
+        end
+      end
+    end
+
+    module ClassMethods
+      def acts_as_watchable_with_anonymous(options = {})
+        return if self.included_modules.include?(Redmine::Acts::Watchable::InstanceMethods)
+        acts_as_watchable_without_anonymous(options)
+        has_many :anonymous_watchers, :as => :watchable, :dependent => :delete_all
+      end
+    end
+
+    module InstanceMethods
+      def add_watcher_with_anonymous(obj)
+        case obj
+        when User
+          add_watcher_without_anonymous(obj)
+        when String
+          self.anonymous_watchers << AnonymousWatcher.new(:mail => obj)
+        end
+      end
+
+      def remove_watcher_with_anonymous(obj)
+        case obj
+        when User
+          remove_watcher_without_anonymous(obj)
+        when String
+          AnonymousWatcher.delete_all(:watchable_type => self.class.name, :watchable_id => self.id, :mail => obj)
+        end
+      end
+
+      def watched_by_with_anonymous?(obj)
+        case obj
+        when User
+          watched_by_without_anonymous?(obj)
+        when String
+          watcher_mails.include?(obj)
+        else
+          false
+        end
+      end
+
+      def watcher_recipients_with_anonymous
+        recipients = watcher_recipients_without_anonymous
+        recipients += watcher_mails
+        recipients.uniq
+      end
+    end
+  end
+end
+
+Redmine::Acts::Watchable.send :include, RedmineAnonymousWatchers::ActsAsWatchablePatch

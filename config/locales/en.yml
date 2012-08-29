@@ -1,0 +1,4 @@
+en:
+  label_optional_watcher_mails: "Anonymous watchers' E-Mails (separated by comma):"
+  label_ignore_emails: "Ignore emails"
+  text_ignore_emails: "Specify comma-separated list of E-Mails that should not be added as anonymous watchers when creating issue from mail"
