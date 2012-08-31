@@ -1,0 +1,32 @@
+= Anonymous Watchers plug-in
+
+Anonymous Watchers plug-in allows to add any e-mail addresses as watchers in Redmine.
+When creating issues from mails, it also adds non-member e-mails to watchers automatically (exceptions can be configured).
+
+Recommended to use together with "Anonymous Authors plug-in":
+http://redmine.academ.org/projects/redmine/wiki/Anonymous_Authors_plug-in
+
+== Installation And Configuration
+
+From a ZIP file:
+
+* Download the latest version of the plugin
+* Unzip to */plugins* (Redmine 2.x) or */vendor/plugins* (Redmine 1.x) folder of Redmine
+
+From a GIT repository:
+
+* Clone repository with <b>git clone git://git.academ.org/redmine_anonymous_watchers.git plugins/redmine_anonymous_watchers</b> command
+
+After download:
+
+* Run <b>rake redmine:plugins:migrate</b> (Redmine 2.x) or <b>rake db:migrate:plugins</b> (Redmine 1.x).
+* Restart Redmine.
+* Configure e-mail exceptions list, if you use issues creation from mails
+
+== Compatibility
+
+This plug-in is compatible with Redmine 1.4.x, 2.0.x, 2.1.x
+
+== Changelog
+
+[0.0.1] Initial commit
