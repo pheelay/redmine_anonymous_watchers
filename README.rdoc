@@ -6,6 +6,13 @@ When creating issues from mails, it also adds non-member e-mails to watchers aut
 Recommended to use together with "Anonymous Authors plug-in":
 http://redmine.academ.org/projects/redmine/wiki/Anonymous_Authors_plug-in
 
+== Rewrites
+
+This plug-in rewrites the following views:
+
+/app/views/watchers/_new.html.erb
+/app/views/watchers/_watchers.html.erb
+
 == Installation And Configuration
 
 From a ZIP file:
