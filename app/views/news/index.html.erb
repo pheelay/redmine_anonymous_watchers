@@ -1,4 +1,4 @@
-<% if Setting.notified_events.include?('news_added') %>
+<% if Setting.notified_events.include?('news_added') && @project %>
   <% html = Nokogiri::HTML.fragment(render(:parent)) %>
   <% html.at_css("div:root.contextual") << watcher_tag(@project.news_subscription, User.current) %>
   <%= raw html %>
