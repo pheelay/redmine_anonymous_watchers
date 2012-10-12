@@ -1,22 +1,7 @@
-<% if User.current.allowed_to?(:add_issue_watchers, @project) %>
-<div class="contextual">
-<% if (Redmine::VERSION::ARRAY <=> [2, 1, 0]) > 0 %>
-<%= link_to l(:button_add),
-      {:controller => 'watchers', :action => 'new', :object_type => watched.class.name.underscore, :object_id => watched},
-      :remote => true,
-      :method => 'get' %>
-<% else %>
-<%= link_to_remote l(:button_add),
-                   :url => {:controller => 'watchers',
-                            :action => 'new',
-                            :object_type => watched.class.name.underscore,
-                            :object_id => watched},
-                   :method => 'get',
-                   :before => "if ($('ajax-modal').hasClassName('new-watcher')) {showModal('ajax-modal'); return false;}" %>
-<% end %>
-</div>
-<% end %>
+<% html = Nokogiri::HTML.fragment(render(:parent, {:watched => watched})) %>
+<% html.at_css("h3").replace(capture do %>
+  <h3><%= l(:label_issue_watchers) %> (<%= watched.watchers.size+watched.anonymous_watchers.size %>)</h3>
+<% end) %>
+<%= raw html %>
 
-<h3><%= l(:label_issue_watchers) %> (<%= watched.watchers.size+watched.anonymous_watchers.size %>)</h3>
 
-<%= watchers_list(watched) %>

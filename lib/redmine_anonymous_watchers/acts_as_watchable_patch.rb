@@ -41,7 +41,9 @@ module RedmineAnonymousWatchers
         when User
           add_watcher_without_anonymous(obj)
         when String
-          self.anonymous_watchers << AnonymousWatcher.new(:mail => obj)
+          anonymous_watchers << AnonymousWatcher.new(:mail => obj)
+        when AnonymousWatcher
+          anonymous_watchers << obj
         end
       end
 
@@ -51,6 +53,9 @@ module RedmineAnonymousWatchers
           remove_watcher_without_anonymous(obj)
         when String
           AnonymousWatcher.delete_all(:watchable_type => self.class.name, :watchable_id => self.id, :mail => obj)
+        when AnonymousWatcher
+          AnonymousWatcher.delete_all({:watchable_type => self.class.name, :watchable_id => self.id}.merge(
+                                          obj.anonymous_token ? {:anonymous_token => obj.anonymous_token} : {:mail => obj.mail}))
         end
       end
 
@@ -60,6 +65,8 @@ module RedmineAnonymousWatchers
           watched_by_without_anonymous?(obj)
         when String
           watcher_mails.include?(obj)
+        when AnonymousWatcher
+          anonymous_watchers.any? {|w| obj.anonymous_token ? obj.anonymous_token == w.anonymous_token : obj.mail == w.mail}
         else
           false
         end

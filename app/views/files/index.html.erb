@@ -1,0 +1,12 @@
+<%= render :parent %>
+
+<% if Setting.notified_events.include?('file_added') %>
+  <script type="text/javascript">
+    var html = "<%= raw escape_javascript watcher_tag(@project.files_subscription, User.current)%>";
+    if (typeof jQuery != 'undefined') {
+      $("#content > div.contextual").append(html);
+    } else {
+      $$("#content > div.contextual")[0].insert(html);
+    }
+  </script>
+<% end %>
