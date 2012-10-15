@@ -48,11 +48,11 @@ module RedmineAnonymousWatchers
         news_added_without_anonymous_watchers(news)
       end
       def mail_with_anonymous_watchers(headers={})
-        headers[:cc] = ((headers[:cc]||[]) + (@subscription_recipients||[]) - (headers[:to]||[])).uniq
+        headers[:cc] = (Array(headers[:cc]) + Array(@subscription_recipients) - Array(headers[:to])).uniq
         mail_without_anonymous_watchers(headers)
       end
       def create_mail_with_anonymous_watchers
-        cc ((cc||[]) + (@subscription_recipients||[]) - (recipients||[])).uniq
+        cc (Array(cc) + Array(@subscription_recipients) - Array(recipients)).uniq
         create_mail_without_anonymous_watchers
       end
     end
