@@ -15,6 +15,13 @@ Anonymous Watchers plug-in:
 Recommended to use together with "Anonymous Authors plug-in":
 http://redmine.academ.org/projects/redmine/wiki/Anonymous_Authors_plug-in
 
+== Forked for compatibility with Redmine 2.3+
+
+Forked from git://git.academ.org/redmine_anonymous_watchers.git
+
+The original plugin does not work in later releases of Redmine, following the addition of Private Notes. This fork aims to restore Anonymous Watchers compatibility with Redmine 2.3+.
+
+
 == Installation And Configuration
 
 From a ZIP file:
@@ -24,7 +31,7 @@ From a ZIP file:
 
 From a GIT repository:
 
-* Clone repository with <b>git clone git://git.academ.org/redmine_anonymous_watchers.git plugins/redmine_anonymous_watchers</b> command
+* Clone repository with <b>git clone git@github.com:pheelay/redmine_anonymous_watchers.git plugins/redmine_anonymous_watchers</b> command
 
 After download:
 
@@ -37,13 +44,4 @@ After download:
 
 == Compatibility
 
-This plug-in is compatible with Redmine 1.4.x, 2.0.x, 2.1.x
-
-== Changelog
-
-[0.1.0] * Added ability to subscribe to/unsubscribe from Redmine events anonymously.
-        * Added more events to subscribe (all issues, all documents, all files, all news)
-        * View rewrites fully eliminated
-
-        After upgrade, don't forget to run 'bundle install' and migrate installed plugins
-[0.0.1] Initial commit
+This plug-in is compatible with Redmine 1.4.x, 2.0.x, 2.1.x, 2.3.x (2.2 untested)
