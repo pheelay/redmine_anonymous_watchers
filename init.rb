@@ -49,7 +49,7 @@ Redmine::Plugin.register :redmine_anonymous_watchers do
   name 'Redmine Anonymous Watchers plug-in'
   author 'Anton Argirov'
   author_url 'http://redmine.academ.org'
-  description "Allows to add emails as watchers and subscribe to Redmine events anonymously"
+  description "Allows to add emails as watchers and subscribe to Redmine events anonymously. Patched for Redmine 2.3.x by Phil Franks (Patch v2)"
   url "http://redmine.academ.org"
   version '0.1.0'
 
